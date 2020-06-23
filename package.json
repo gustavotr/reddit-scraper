@@ -3,11 +3,13 @@
 	"version": "0.0.1",
 	"description": "This is a boilerplate of an Apify actor.",
 	"dependencies": {
-		"apify": "^0.20.0"
+		"apify": "^0.20.0",
+		"cheerio": "^1.0.0-rc.3",
+		"safe-eval": "^0.4.1"
 	},
 	"devDependencies": {
-		"@apify/eslint-config": "0.0.3",
-		"eslint": "^7.0.0"
+		"@apify/eslint-config": "^0.1.0",
+		"eslint": "~7.2.0"
 	},
 	"scripts": {
 		"start": "node src/main.js",
