@@ -22,16 +22,16 @@ exports.getUrlType = (url) => {
     const searchParameters = new URLSearchParams(params);
 
     if (url.match(/www\.reddit\.com\/search\/.*$/)) {
-        if(searchParameters.get('type') === 'link'){
+        if (searchParameters.get('type') === 'link') {
             type = EnumURLTypes.POSTS;
         }
 
-        if(searchParameters.get('type') === 'sr,user'){
+        if (searchParameters.get('type') === 'sr,user') {
             type = EnumURLTypes.COMUMUNITIES_AND_USERS;
         }
     }
 
-    if(url.match(/www\.reddit\.com\/r\/.+\/comments\/.*$/)){
+    if (url.match(/www\.reddit\.com\/r\/.+\/comments\/.*$/)) {
         type = EnumURLTypes.COMMENTS;
     }
 

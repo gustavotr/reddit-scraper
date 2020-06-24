@@ -8,7 +8,7 @@ const { EnumBaseUrl, EnumURLTypes } = require('./constants');
 Apify.main(async () => {
     const input = await Apify.getInput();
 
-    const { proxy, startUrls, maxItems, search, extendOutputFunction } = input;
+    const { proxy, startUrls, maxItems, search, extendOutputFunction, maxPostCount, maxComments } = input;
 
     if (!startUrls && !search) {
         throw new Error('startUrls or search parameter must be provided!');
@@ -45,6 +45,7 @@ Apify.main(async () => {
         launchPuppeteerOptions: {
             ...proxy,
             stealth: true,
+            devtools: true,
         },
 
         handlePageFunction: async (context) => {
@@ -64,10 +65,13 @@ Apify.main(async () => {
             log.debug('Type:', type);
 
             await Apify.utils.puppeteer.injectJQuery(page);
+            await Apify.utils.puppeteer.blockRequests(page, {
+                extraUrlPatterns: ['ads'],
+            });
 
             switch (type) {
                 case EnumURLTypes.POSTS:
-                    return postsParser({ requestQueue, ...context });
+                    return postsParser({ requestQueue, ...context, maxPostCount });
                 case EnumURLTypes.COMUMUNITIES_AND_USERS:
                     return communitiesAndUsersParser({ requestQueue, ...context });
                 case EnumURLTypes.COMMENTS:
@@ -78,7 +82,7 @@ Apify.main(async () => {
         },
 
         handleFailedRequestFunction: async ({ request }) => {
-            console.log(`Request ${request.url} failed too many times`);
+            log.exception(`Request ${request.url} failed too many times`);
         },
     });
 
