@@ -26,6 +26,6 @@ exports.communityParser = async ({ requestQueue, request, page }) => {
     };
 
     for (const categoryUrl of categories) {
-        await requestQueue.addRequest({ url: categoryUrl, userData: { community } });
+        await requestQueue.addRequest({ url: categoryUrl, userData: { community } }, { forefront: true });
     }
 };

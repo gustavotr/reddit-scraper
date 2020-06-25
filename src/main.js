@@ -63,7 +63,7 @@ Apify.main(async () => {
             log.info(`Processing ${request.url}...`);
 
             const urlType = getUrlType(request.url);
-            log.debug('Type:', urlType);
+            log.debug(`Type: ${urlType}`);
 
             await Apify.utils.puppeteer.injectJQuery(page);
 

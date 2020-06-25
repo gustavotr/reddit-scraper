@@ -1,15 +1,16 @@
 /* global $ */
 
 const Apify = require('apify');
+const { SCROLL_TIMEOUT } = require('../constants');
 
 exports.postsParser = async ({ requestQueue, page, request, maxPostCount }) => {
     let loading = true;
-    const previousPostLength = -1;
+    let previousPostLength = -1;
     let posts = [];
 
     setTimeout(() => {
         loading = false;
-    }, 20000);
+    }, SCROLL_TIMEOUT);
 
     while (loading) {
         await Apify.utils.puppeteer.infiniteScroll(page, { timeoutSecs: 1 });
@@ -22,6 +23,8 @@ exports.postsParser = async ({ requestQueue, page, request, maxPostCount }) => {
         if (posts.length >= maxPostCount || previousPostLength === posts.length) {
             loading = false;
         }
+
+        previousPostLength = posts.length;
     }
 
     await posts.reduce(async (previous, url) => {
