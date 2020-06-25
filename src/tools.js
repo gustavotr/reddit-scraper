@@ -60,6 +60,7 @@ exports.gotoFunction = async ({ page, request }) => {
         ];
 
         const ignored = [
+            'doubleclicks',
         ];
 
         let abort = ignoredTypes.includes(resourceType);

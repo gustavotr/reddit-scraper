@@ -8,6 +8,10 @@ exports.communityCategoryParser = async ({ requestQueue, request, page, maxPostC
     const previousPostLength = -1;
     let posts = [];
 
+    setTimeout(() => {
+        loading = false;
+    }, 20000);
+
     while (loading) {
         await Apify.utils.puppeteer.infiniteScroll(page, { timeoutSecs: 1 });
 
