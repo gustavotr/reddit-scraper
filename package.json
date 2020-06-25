@@ -4,7 +4,6 @@
 	"description": "This is a boilerplate of an Apify actor.",
 	"dependencies": {
 		"apify": "^0.20.0",
-		"cheerio": "^1.0.0-rc.3",
 		"safe-eval": "^0.4.1"
 	},
 	"devDependencies": {

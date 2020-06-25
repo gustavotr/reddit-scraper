@@ -13,6 +13,20 @@
             "patternValue": "https:\\/\\/www\\.reddit\\.com\\/*.*",
             "uniqueItems": true
         },  
+        "type": {
+            "title": "Search type",
+            "type": "string",
+            "description": "Select the type of content you want to scrape",
+            "editor": "select",
+            "enum": [
+                "posts",
+                "communities_and_user"
+            ],
+            "enumTitles": [
+                "Posts",
+                "Communities and users"
+            ]
+        },
         "search": {
             "title": "Search",
             "type": "string",

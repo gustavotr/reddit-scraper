@@ -7,12 +7,14 @@ exports.commentsParser = async ({ page, request }) => {
     const data = await page.evaluate(() => {
         const numberOfVotes = document.querySelector('[data-click-id=upvote] ~div').innerHTML;
         const postedBy = document.querySelector('a[href^="/user/"]').innerHTML;
+        const postedDate = document.querySelector('a[data-click-id=timestamp]').innerHTML;
         const title = document.querySelector('h1').innerHTML;
         const text = document.querySelector('div[data-click-id=text]').innerText;
 
         return {
             numberOfVotes,
             postedBy,
+            postedDate,
             title,
             text,
         };

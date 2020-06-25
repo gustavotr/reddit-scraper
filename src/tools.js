@@ -17,7 +17,7 @@ exports.getSearchUrl = (keyword) => {
 exports.getUrlType = (url) => {
     let type = null;
 
-    const [baseUrl, params] = url.split('?');
+    const [, params] = url.split('?');
 
     const searchParameters = new URLSearchParams(params);
 
@@ -35,7 +35,60 @@ exports.getUrlType = (url) => {
         type = EnumURLTypes.COMMENTS;
     }
 
+    if (url.match(/reddit.com\/r\/([^/]+)\/$/)) {
+        type = EnumURLTypes.COMMUNITY;
+    }
+
+    if (url.match(/reddit.com\/r\/([^/]+)\/[^/]+\/?$/)) {
+        type = EnumURLTypes.COMMUNITY_CATEGORY;
+    }
+
     return type;
 };
 
 exports.splitUrl = (url) => url.split('?')[0];
+
+exports.gotoFunction = async ({ page, request }) => {
+    await page.setRequestInterception(true);
+
+    page.on('request', (req) => {
+        const url = req.url();
+        const resourceType = req.resourceType();
+        const ignoredTypes = [
+            'stylesheet',
+            'image',
+            // 'media',
+            'font',
+            // 'texttrack',
+            // 'xhr',
+            // 'fetch',
+            // 'eventsource',
+            // 'websocket',
+            // 'manifest',
+            // 'other',
+        ];
+
+        const ignored = [
+            // 'gtm',
+            'Governance',
+            // 'googleapis.com',
+            // 'ibmcloud.com',
+            // 'omtrdc.net',
+            // 'demdex.net',
+            // 'go-mpulse.net',
+            // 'foresee.com',
+            // 'atgsvcs.com',
+        ];
+
+        let abort = ignoredTypes.includes(resourceType);
+        if (!abort) abort = ignored.some((item) => url.includes(item));
+
+        if (abort) {
+            req.abort();
+        } else {
+            req.continue();
+        }
+    });
+
+    return page.goto(request.url, { timeout: 60000 });
+};

@@ -1,14 +1,13 @@
 const Apify = require('apify');
-const cheerio = require('cheerio');
 const safeEval = require('safe-eval');
-const { commentsParser, communitiesAndUsersParser, postsParser } = require('./parsers');
-const { log, getUrlType, getSearchUrl, splitUrl } = require('./tools');
+const Parsers = require('./parsers');
+const { log, getUrlType, getSearchUrl, gotoFunction } = require('./tools');
 const { EnumBaseUrl, EnumURLTypes } = require('./constants');
 
 Apify.main(async () => {
     const input = await Apify.getInput();
 
-    const { proxy, startUrls, maxItems, search, extendOutputFunction, maxPostCount, maxComments } = input;
+    const { proxy, startUrls, maxItems, search, extendOutputFunction, maxPostCount, maxComments, type } = input;
 
     if (!startUrls && !search) {
         throw new Error('startUrls or search parameter must be provided!');
@@ -48,6 +47,8 @@ Apify.main(async () => {
             devtools: true,
         },
 
+        gotoFunction,
+
         handlePageFunction: async (context) => {
             const dataset = await Apify.openDataset();
             const { itemCount } = await dataset.getInfo();
@@ -65,17 +66,18 @@ Apify.main(async () => {
             log.debug('Type:', type);
 
             await Apify.utils.puppeteer.injectJQuery(page);
-            await Apify.utils.puppeteer.blockRequests(page, {
-                extraUrlPatterns: ['ads'],
-            });
 
             switch (type) {
                 case EnumURLTypes.POSTS:
-                    return postsParser({ requestQueue, ...context, maxPostCount });
+                    return Parsers.postsParser({ requestQueue, ...context, maxPostCount });
                 case EnumURLTypes.COMUMUNITIES_AND_USERS:
-                    return communitiesAndUsersParser({ requestQueue, ...context });
+                    return Parsers.communitiesAndUsersParser({ requestQueue, ...context });
                 case EnumURLTypes.COMMENTS:
-                    return commentsParser({ requestQueue, ...context });
+                    return Parsers.commentsParser({ requestQueue, ...context });
+                case EnumURLTypes.COMMUNITY:
+                    return Parsers.communityParser({ requestQueue, ...context });
+                case EnumURLTypes.COMMUNITY_CATEGORY:
+                    return Parsers.communityCategoryParser({ requestQueue, ...context, maxPostCount });
                 default:
                     log.warning('Url does not match any parser');
             }
