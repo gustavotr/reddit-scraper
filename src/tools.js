@@ -55,29 +55,11 @@ exports.gotoFunction = async ({ page, request }) => {
         const url = req.url();
         const resourceType = req.resourceType();
         const ignoredTypes = [
-            'stylesheet',
             'image',
-            // 'media',
             'font',
-            // 'texttrack',
-            // 'xhr',
-            // 'fetch',
-            // 'eventsource',
-            // 'websocket',
-            // 'manifest',
-            // 'other',
         ];
 
         const ignored = [
-            // 'gtm',
-            'Governance',
-            // 'googleapis.com',
-            // 'ibmcloud.com',
-            // 'omtrdc.net',
-            // 'demdex.net',
-            // 'go-mpulse.net',
-            // 'foresee.com',
-            // 'atgsvcs.com',
         ];
 
         let abort = ignoredTypes.includes(resourceType);

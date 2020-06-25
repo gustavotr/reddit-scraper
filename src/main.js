@@ -62,12 +62,12 @@ Apify.main(async () => {
             const { page, request, session } = context;
             log.info(`Processing ${request.url}...`);
 
-            const type = getUrlType(request.url);
-            log.debug('Type:', type);
+            const urlType = getUrlType(request.url);
+            log.debug('Type:', urlType);
 
             await Apify.utils.puppeteer.injectJQuery(page);
 
-            switch (type) {
+            switch (urlType) {
                 case EnumURLTypes.POSTS:
                     return Parsers.postsParser({ requestQueue, ...context, maxPostCount });
                 case EnumURLTypes.COMUMUNITIES_AND_USERS:
