@@ -8,10 +8,11 @@ const {
     gotoFunction,
     getSearchType,
     hasReachedScrapeLimit,
+    validateInput,
 } = require('./tools');
 
 Apify.main(async () => {
-    const input = await Apify.getInput();
+    const input = validateInput(await Apify.getInput());
 
     const dataset = await Apify.openDataset();
     let { itemCount } = await dataset.getInfo();
@@ -28,10 +29,6 @@ Apify.main(async () => {
         useBuiltInSearch,
         type,
     } = input;
-
-    if (!startUrls && !useBuiltInSearch) {
-        throw new Error('startUrls or built-in search must be used!');
-    }
 
     const requestList = await Apify.openRequestList(
         'start-urls',

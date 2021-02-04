@@ -100,3 +100,39 @@ exports.convertRelativeDate = (passedTimeString) => {
 exports.hasReachedScrapeLimit = ({ maxItems, itemCount }) => {
     return itemCount >= maxItems;
 };
+exports.defaultInput = {
+    proxy: '',
+    startUrls: [],
+    searches: [],
+    extendOutputFunction: '',
+    maxItems: 50,
+    maxPostCount: 50,
+    maxComments: 50,
+    maxCommunitiesAndUsers: 50,
+    useBuiltInSearch: false,
+    type: 'Posts',
+    proxyConfiguration: { useApifyProxy: true },
+};
+
+exports.validateInput = (input) => {
+    if (input.useBuiltInSearch === undefined) {
+        log.warning('Input: built-in search is not set, set true as default');
+    }
+    if (input.searches === undefined) {
+        log.warning('Input: searches is not set, set [] as default.');
+    }
+    if (input.startUrls === undefined) {
+        log.warning('Input: startUrls is not set, set [] as default.');
+    }
+    const newInput = { ...exports.defaultInput, ...input };
+    if (newInput.useBuiltInSearch && newInput.searches.length === 0) {
+        log.warning('Empty searches with built-in search found.');
+    }
+    if (newInput.startUrls.length === 0) {
+        log.warning('Empty startUrls found.');
+    }
+    if (!newInput.useBuiltInSearch && newInput.startUrls.length === 0) {
+        log.error('startUrls or built-in search must be used!');
+    }
+    return newInput;
+};
