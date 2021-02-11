@@ -45,7 +45,7 @@ Apify.main(async () => {
         }
     }
 
-    let proxyConfiguration = null;
+    let proxyConfiguration;
 
     if (proxy.useApifyProxy) {
         proxyConfiguration = await Apify.createProxyConfiguration({
@@ -59,10 +59,6 @@ Apify.main(async () => {
         useSessionPool: true,
         persistCookiesPerSession: true,
         proxyConfiguration,
-        launchPuppeteerOptions: {
-            stealth: true,
-        },
-
         gotoFunction,
 
         handlePageFunction: async (context) => {

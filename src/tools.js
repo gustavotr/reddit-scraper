@@ -1,5 +1,5 @@
 const Apify = require('apify');
-const moment = require('moment');
+const sub = require('date-fns/sub');
 const { EnumBaseUrl, EnumURLTypes } = require('./constants');
 
 const { log } = Apify.utils;
@@ -87,14 +87,21 @@ exports.convertStringToNumber = (stringNumber) => {
 };
 
 exports.convertRelativeDate = (passedTimeString) => {
-    const results = passedTimeString.match(/^(\d+)\s(\w+)\sago.*$/);
-    if (results) {
-        const num = results[1];
-        const duration = results[2];
-        return moment().subtract(num, duration).toISOString();
+    try {
+        const results = passedTimeString.match(/^(\d+)\s(\w+)\sago.*$/);
+        if (results) {
+            const num = results[1];
+            const key = results[2];
+            const duration = {};
+            duration[key] = Number(num);
+            const convertedDate = sub(new Date(), duration).toISOString();
+            return convertedDate;
+        }
+        throw new Error();
+    } catch (err) {
+        log.error(`Error converting relative date/time: ${passedTimeString}`);
+        return passedTimeString;
     }
-    log.error(`Error converting relative date/time: ${passedTimeString}`);
-    return passedTimeString;
 };
 
 exports.hasReachedScrapeLimit = ({ maxItems, itemCount }) => {

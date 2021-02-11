@@ -12,8 +12,8 @@
             "placeholderValue": "URL",
             "patternValue": "^$|https:\\/\\/www\\.reddit\\.com\\/*.*",
             "uniqueItems": true
-        },  
-        "useBuiltInSearch":{
+        },
+        "useBuiltInSearch": {
             "title": "Use built-in search and ignore startUrls",
             "type": "boolean",
             "description": "Use the fields bellow to perform a search and scrape the result",
@@ -24,7 +24,7 @@
         "searches": {
             "title": "Search Term",
             "type": "array",
-            "description": "Here you can provide a search query which will be used to search Reddit's topics.",
+            "description": "Here you can provide a search query which will be used to search Reddit`s topics.",
             "editor": "stringList"
         },
         "type": {
@@ -44,7 +44,7 @@
         "maxItems": {
             "title": "Maximum Number of Items",
             "type": "integer",
-            "description": "The maximum number of items that will be saved in the dataset. If you are scrapping for Communities&Users, remeber to consider that each category inside a community is saved as a separeted item.",
+            "description": "The maximum number of items that will be saved in the dataset. If you are scrapping for Communities&Users, remember to consider that each category inside a community is saved as a separeted item.",
             "editor": "number",
             "prefill": 50,
             "default": 50
@@ -72,7 +72,7 @@
             "editor": "number",
             "prefill": 50,
             "default": 50
-        },        
+        },
         "extendOutputFunction": {
             "title": "Extended Output Function",
             "type": "string",
@@ -89,6 +89,5 @@
             "editor": "proxy"
         }
     },
-    "required": [
-    ]
+    "required": []
 }
