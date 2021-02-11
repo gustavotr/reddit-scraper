@@ -9,6 +9,7 @@ const {
     getSearchType,
     hasReachedScrapeLimit,
     validateInput,
+    enableDebugMode,
 } = require('./tools');
 
 Apify.main(async () => {
@@ -28,7 +29,12 @@ Apify.main(async () => {
         maxCommunitiesAndUsers,
         useBuiltInSearch,
         type,
+        debugMode,
     } = input;
+
+    if (debugMode) {
+        enableDebugMode();
+    }
 
     const requestList = await Apify.openRequestList(
         'start-urls',

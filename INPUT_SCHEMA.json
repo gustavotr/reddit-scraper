@@ -87,6 +87,15 @@
                 "useApifyProxy": true
             },
             "editor": "proxy"
+        },
+        "debugMode": {
+            "title": "Debug Mode",
+            "type": "boolean",
+            "description": "Activate to see detailed logs",
+            "default": false,
+            "sectionCaption": "Settings",
+            "editor": "checkbox",
+            "groupCaption": "Settings"
         }
     },
     "required": []

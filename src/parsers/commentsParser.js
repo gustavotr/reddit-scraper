@@ -10,7 +10,7 @@ exports.commentsParser = async ({ page, request, maxComments, extendOutputFuncti
     try {
         await page.waitForSelector(`[id=t3_${postId}`);
     } catch (err) {
-        log.error('Timeout on waitForSelector: comentsParser.js:13');
+        log.warning('Timeout on waitForSelector: comentsParser.js:13');
     }
 
     const data = await page.$eval(`[id=t3_${postId}`, (el) => {
@@ -33,10 +33,9 @@ exports.commentsParser = async ({ page, request, maxComments, extendOutputFuncti
     const communityName = postUrl.match(/reddit\.com\/(.*)\/comments.*/)[1];
 
     try {
-        await page.waitForTimeout(10000);
         await page.click('button._2JBsHFobuapzGwpHQjrDlD.j9NixHqtN2j8SKHcdJ0om._2nelDm85zKKmuD94NequP0');
     } catch (err) {
-        log.error('Timeout on click: comentsParser.js:38');
+        log.warning('Timeout on click: comentsParser.js:38');
     }
 
     let loading = true;

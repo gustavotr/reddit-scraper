@@ -3,9 +3,11 @@ const sub = require('date-fns/sub');
 const { EnumBaseUrl, EnumURLTypes } = require('./constants');
 
 const { log } = Apify.utils;
-log.setLevel(log.LEVELS.DEBUG);
-
 exports.log = log;
+
+exports.enableDebugMode = () => {
+    log.setLevel(log.LEVELS.DEBUG);
+};
 
 exports.getSearchUrl = ({ search, type }) => {
     const searchType = type === 'posts' ? 'link' : 'sr,user';
@@ -99,7 +101,7 @@ exports.convertRelativeDate = (passedTimeString) => {
         }
         throw new Error();
     } catch (err) {
-        log.error(`Error converting relative date/time: ${passedTimeString}`);
+        log.warning(`Error converting relative date/time: ${passedTimeString}`);
         return passedTimeString;
     }
 };
