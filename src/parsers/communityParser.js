@@ -19,7 +19,8 @@ exports.communityParser = async ({ requestQueue, request, page }) => {
     const title = await page.$eval('h1', (el) => el.innerText);
     const title2 = await page.$eval('h2', (el) => el.innerText);
     const createdAt = await page.$eval('[id^="IdCard--CakeDay"]', (el) => el.innerText);
-    const members = convertStringToNumber(await page.$eval('[id^=IdCard--Subscribers]', (el) => $(el).closest('div').text().replace('Members', '')));
+    const membersRaw = await page.$eval('._3_HlHJ56dAfStT19Jgl1bF ._3XFx6CfPlg-4Usgxm0gK8R', (el) => el.innerText);
+    const members = convertStringToNumber(membersRaw);
     const categories = await page.$$eval('div.wBtTDilkW_rtT2k5x3eie a', (elements) => {
         const cats = new Set(elements.map((el) => el.href));
         return Array.from(cats);
