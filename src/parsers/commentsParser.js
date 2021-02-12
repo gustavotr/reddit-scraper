@@ -35,7 +35,7 @@ exports.commentsParser = async ({ page, request, maxComments, extendOutputFuncti
     try {
         await page.click('button._2JBsHFobuapzGwpHQjrDlD.j9NixHqtN2j8SKHcdJ0om._2nelDm85zKKmuD94NequP0');
     } catch (err) {
-        log.warning('Timeout on click: comentsParser.js:38');
+        log.warning('Timeout on click: comentsParser.js:38', err);
     }
 
     let loading = true;

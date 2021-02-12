@@ -91,6 +91,9 @@ exports.convertStringToNumber = (stringNumber) => {
 
 exports.convertRelativeDate = (passedTimeString) => {
     try {
+        if (passedTimeString.trim() === 'just now') {
+            return new Date().toISOString();
+        }
         const results = passedTimeString.match(/^(\d+)\s(\w+)\sago.*$/);
         if (results) {
             const num = results[1];
@@ -102,7 +105,7 @@ exports.convertRelativeDate = (passedTimeString) => {
         }
         throw new Error();
     } catch (err) {
-        log.warning(`Error converting relative date/time: ${passedTimeString}`);
+        log.warning(`Error converting relative date/time: ${passedTimeString}`, err);
         return passedTimeString;
     }
 };
