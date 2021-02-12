@@ -21,11 +21,12 @@ exports.getSearchUrl = ({ search, type }) => {
 
 exports.getSearchType = (url) => {
     const type = this.getUrlType(url);
-    if ([EnumURLTypes.COMUMUNITIES_AND_USERS, EnumURLTypes.POSTS].includes(type)) {
-        return type;
+    log.debug('Search type', { type });
+    if (!type) {
+        log.error('Url search type not supported!', { url });
+        return false;
     }
-    log.exception('Url search type not supported!');
-    return false;
+    return type;
 };
 
 exports.getUrlType = (url) => {
@@ -49,11 +50,11 @@ exports.getUrlType = (url) => {
         type = EnumURLTypes.COMMENTS;
     }
 
-    if (url.match(/reddit.com\/r\/([^/]+)\/$/)) {
+    if (url.match(/reddit\.com\/r\/([^/]+)(\/?)$/)) {
         type = EnumURLTypes.COMMUNITY;
     }
 
-    if (url.match(/reddit.com\/r\/([^/]+)\/[^/]+\/?$/)) {
+    if (url.match(/reddit\.com\/r\/([^/]+)\/[^/]+\/?$/)) {
         type = EnumURLTypes.COMMUNITY_CATEGORY;
     }
 
