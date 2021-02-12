@@ -83,7 +83,7 @@
             "title": "Proxy configuration",
             "type": "object",
             "description": "Either use Apify proxy, or provide your own proxy servers.",
-            "default": {
+            "prefill": {
                 "useApifyProxy": true
             },
             "editor": "proxy"
