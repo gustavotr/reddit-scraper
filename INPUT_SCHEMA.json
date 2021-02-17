@@ -48,8 +48,7 @@
             "editor": "number",
             "prefill": 50,
             "default": 50,
-            "sectionCaption": "Settings",
-            "groupCaption": "Settings"
+            "sectionCaption": "Settings"
         },
         "maxPostCount": {
             "title": "Limit of posts scraped inside a single page",
@@ -95,7 +94,7 @@
             "type": "boolean",
             "description": "Activate to see detailed logs",
             "default": false,
-            "editor": "checkbox",
+            "editor": "checkbox"
         }
     },
     "required": []
