@@ -1,6 +1,7 @@
 const Apify = require("apify");
 const sub = require("date-fns/sub");
 const { EnumBaseUrl, EnumURLTypes } = require("./constants");
+const { getItemsCount } = require("./saved-items");
 
 const { log } = Apify.utils;
 exports.log = log;
@@ -115,8 +116,19 @@ exports.convertRelativeDate = (passedTimeString) => {
   }
 };
 
-exports.hasReachedScrapeLimit = ({ maxItems, itemCount }) => {
-  return itemCount >= maxItems;
+/**
+ *
+ * @param {Object} params
+ * @param {number} params.maxItems
+ */
+exports.verifyItemsCount = ({ maxItems }) => {
+  const itemCount = getItemsCount();
+  const reachedLimit = itemCount >= maxItems;
+  if (reachedLimit) {
+    log.info("Actor reached the max items limit. Crawler is going to halt...");
+    log.info("Crawler Finished.");
+    process.exit();
+  }
 };
 
 exports.defaultInput = {

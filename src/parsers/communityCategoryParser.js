@@ -2,12 +2,12 @@
 
 const Apify = require("apify");
 const { SCROLL_TIMEOUT } = require("../constants");
+const { incrementItemsCount } = require("../saved-items");
 const {
   convertRelativeDate,
   convertStringToNumber,
-  hasReachedScrapeLimit,
-  maxItems,
-  itemCount,
+  verifyItemsCount,
+  log,
 } = require("../tools");
 
 exports.communityCategoryParser = async ({
@@ -15,6 +15,7 @@ exports.communityCategoryParser = async ({
   page,
   maxPostCount,
   extendOutputFunction,
+  maxItems,
 }) => {
   const { community } = request.userData;
   let loading = true;
@@ -76,9 +77,8 @@ exports.communityCategoryParser = async ({
     .slice(0, maxPostCount);
   Object.assign(community, userResult);
 
-  if (!hasReachedScrapeLimit({ maxItems, itemCount })) {
-    await Apify.pushData(community);
-    return itemCount + 1;
-  }
-  return itemCount;
+  verifyItemsCount({ maxItems });
+  log.debug("Saving community data");
+  await Apify.pushData(community);
+  incrementItemsCount();
 };

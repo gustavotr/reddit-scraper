@@ -6,7 +6,7 @@ const {
   getUrlType,
   getSearchUrl,
   getSearchType,
-  hasReachedScrapeLimit,
+  verifyItemsCount,
   validateInput,
   enableDebugMode,
   blockUnusedRequests,
@@ -16,8 +16,8 @@ const { createProxyWithValidation } = require("./proxy-validations");
 Apify.main(async () => {
   const input = validateInput(await Apify.getInput());
 
-  const dataset = await Apify.openDataset();
-  let { itemCount } = await dataset.getInfo();
+  // const dataset = await Apify.openDataset();
+  // let { itemCount } = await dataset.getInfo();
 
   const {
     proxy,
@@ -83,13 +83,7 @@ Apify.main(async () => {
       const { page, request } = context;
       const urlType = getUrlType(request.url);
 
-      if (hasReachedScrapeLimit({ maxItems, itemCount })) {
-        log.info(
-          "Actor reached the max items limit. Crawler is going to halt..."
-        );
-        log.info("Crawler Finished.");
-        process.exit();
-      }
+      verifyItemsCount({ maxItems });
 
       log.info(`Processing ${request.url}...`);
       log.debug(`Type: ${urlType}`);
@@ -111,24 +105,22 @@ Apify.main(async () => {
             maxItems,
           });
         case EnumURLTypes.COMMENTS:
-          itemCount = await Parsers.commentsParser({
+          await Parsers.commentsParser({
             requestQueue,
             ...context,
             maxComments,
             extendOutputFunction,
             maxItems,
-            itemCount,
           });
           return;
         case EnumURLTypes.COMMUNITY:
           return Parsers.communityParser({ requestQueue, ...context });
         case EnumURLTypes.COMMUNITY_CATEGORY:
-          itemCount = await Parsers.communityCategoryParser({
+          await Parsers.communityCategoryParser({
             requestQueue,
             ...context,
             maxPostCount,
             extendOutputFunction,
-            itemCount,
             maxItems,
           });
           return;

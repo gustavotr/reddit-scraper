@@ -2,11 +2,12 @@
 
 const Apify = require("apify");
 const { SCROLL_TIMEOUT } = require("../constants");
+const { incrementItemsCount } = require("../saved-items");
 const {
   log,
   convertStringToNumber,
   convertRelativeDate,
-  hasReachedScrapeLimit,
+  verifyItemsCount,
 } = require("../tools");
 
 exports.commentsParser = async ({
@@ -14,7 +15,6 @@ exports.commentsParser = async ({
   request,
   maxComments,
   extendOutputFunction,
-  itemCount,
   maxItems,
 }) => {
   const postId = request.url.match(/comments\/([^/]+)\/.+/)[1];
@@ -22,7 +22,7 @@ exports.commentsParser = async ({
   try {
     await page.waitForSelector(`[id=t3_${postId}`);
   } catch (err) {
-    log.warning("Timeout on waitForSelector: comentsParser.js:13");
+    log.warning("Timeout on waitForSelector");
   }
 
   const data = await page.$eval(`[id=t3_${postId}`, (el) => {
@@ -123,9 +123,8 @@ exports.commentsParser = async ({
 
   Object.assign(post, userResult);
 
-  if (!hasReachedScrapeLimit({ itemCount, maxItems })) {
-    await Apify.pushData(post);
-    return itemCount + 1;
-  }
-  return itemCount;
+  verifyItemsCount({ maxItems });
+  log.debug("Saving comments data");
+  await Apify.pushData(post);
+  incrementItemsCount();
 };
