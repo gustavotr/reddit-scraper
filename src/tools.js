@@ -25,7 +25,7 @@ exports.getSearchType = (url) => {
   log.debug("Search type", { type });
   if (!type) {
     log.error("Url search type not supported!", { url });
-    return false;
+    process.exit(0);
   }
   return type;
 };
@@ -155,6 +155,17 @@ exports.validateInput = (input) => {
   if (input.startUrls === undefined) {
     log.warning("Input: startUrls is not set, set [] as default.");
   }
+
+  if (input.startUrls && input.startUrls.length) {
+    input.startUrls.forEach((url) => {
+      const searchType = this.getSearchType(url);
+      if (!searchType) {
+        log.error(`This url is not supported: ${url}`);
+        process.exit(0);
+      }
+    });
+  }
+
   const newInput = { ...exports.defaultInput, ...input };
   if (newInput.useBuiltInSearch && newInput.searches.length === 0) {
     log.warning("Empty searches with built-in search found.");
@@ -162,8 +173,9 @@ exports.validateInput = (input) => {
   if (newInput.startUrls.length === 0) {
     log.warning("Empty startUrls found.");
   }
+
   if (!newInput.useBuiltInSearch && newInput.startUrls.length === 0) {
-    log.error("startUrls or built-in search must be used!");
+    throw new Error("startUrls or built-in search must be used!");
   }
   return newInput;
 };

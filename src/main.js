@@ -16,9 +16,6 @@ const { createProxyWithValidation } = require("./proxy-validations");
 Apify.main(async () => {
   const input = validateInput(await Apify.getInput());
 
-  // const dataset = await Apify.openDataset();
-  // let { itemCount } = await dataset.getInfo();
-
   const {
     proxy,
     startUrls,
