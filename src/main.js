@@ -33,6 +33,8 @@ Apify.main(async () => {
     useBuiltInSearch,
     type,
     debugMode,
+    sort,
+    time,
   } = input;
 
   if (debugMode) {
@@ -53,7 +55,7 @@ Apify.main(async () => {
   if (useBuiltInSearch) {
     for (const search of searches) {
       await requestQueue.addRequest({
-        url: getSearchUrl({ search, type }),
+        url: getSearchUrl({ search, type, sort, time }),
         userData: { searchType: type },
       });
     }

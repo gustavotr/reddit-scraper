@@ -9,28 +9,30 @@ Reddit Scraper is an [Apify actor](https://apify.com/actors) for extracting data
 
 ### Input
 
-| Field | Type | Description | Default value
-| ----- | ---- | ----------- | -------------|
-| startUrls | array | List of [Request](https://sdk.apify.com/docs/api/request#docsNav) objects that will be deeply crawled.  |  |
-| useBuiltInSearch | boolean | When set to true (checked), the startUrls will be ignored and the actor will perform a search based on the fields bellow. | false |
-| searches | array | An array containing keywords that will be used in the Reddit's search engine. Each item on the array will perform a diferent search. |  |
-| type | enum | Select the type of search tha will be performed. "Posts" or "Communities and users". | "Posts" |
-| maxItems | number | The maximum number of items that will be saved in the dataset. If you are scrapping for Communities&Users, remember to consider that each category inside a community is saved as a separeted item. [More details here.](#limiting-results-with-maxitems) | 50 |
-| maxPostCount | number | The maximum number of posts that will be scraped for each Posts Page or Communities&Users URL | 50 |
-| maxComments | number | The maximum number of comments that will be scraped for each Comments Page. | 50 |
-| maxCommunitiesAndUsers | number | The maximum number of "Communities & Users"'s pages that will be scraped if your seach or startUrl is a Communites&Users type. | 50 |
-| extendOutputFunction | string | A Javascript function passed as plain text that can return custom information. More on [Extend output function](#extend-output-function). | |
-| proxyConfiguration | object | Proxy settings of the run. | `{"useApifyProxy": true }`|
+| Field                  | Type    | Description                                                                                                                                                                                                                                               | Default value              |
+| ---------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| startUrls              | array   | List of [Request](https://sdk.apify.com/docs/api/request#docsNav) objects that will be deeply crawled.                                                                                                                                                    |                            |
+| useBuiltInSearch       | boolean | When set to true (checked), the startUrls will be ignored and the actor will perform a search based on the fields bellow.                                                                                                                                 | false                      |
+| searches               | array   | An array containing keywords that will be used in the Reddit's search engine. Each item on the array will perform a diferent search.                                                                                                                      |                            |
+| type                   | enum    | Select the type of search tha will be performed. "Posts" or "Communities and users".                                                                                                                                                                      | "posts"                    |
+| time                   | enum    | Filter the search of posts by the last hour, day, week, month or year                                                                                                                                                                                     | "all"                      |
+| sort                   | enum    | Sort search by Relevance, Hot, Top, New or Comments                                                                                                                                                                                                       | nul                        |
+| maxItems               | number  | The maximum number of items that will be saved in the dataset. If you are scrapping for Communities&Users, remember to consider that each category inside a community is saved as a separeted item. [More details here.](#limiting-results-with-maxitems) | 50                         |
+| maxPostCount           | number  | The maximum number of posts that will be scraped for each Posts Page or Communities&Users URL                                                                                                                                                             | 50                         |
+| maxComments            | number  | The maximum number of comments that will be scraped for each Comments Page.                                                                                                                                                                               | 50                         |
+| maxCommunitiesAndUsers | number  | The maximum number of "Communities & Users"'s pages that will be scraped if your seach or startUrl is a Communites&Users type.                                                                                                                            | 50                         |
+| extendOutputFunction   | string  | A Javascript function passed as plain text that can return custom information. More on [Extend output function](#extend-output-function).                                                                                                                 |                            |
+| proxyConfiguration     | object  | Proxy settings of the run.                                                                                                                                                                                                                                | `{"useApifyProxy": true }` |
 
 ### Limiting results with maxItems
 
-When searching for Communities&Users, each community has different categories inside them (ie: New, Hot, Rising, etc..). Each of those are saved as a separated item in the dataset so you have to account for them when setting the `maxItems` input.  As an example, if you set `maxCommunitiesAndUsers` to 10 and each community has 4 categories, you will have to set `maxItems` to at least 40 (10 x 4) to get all the categories for each community in the resulted dataset.
+When searching for Communities&Users, each community has different categories inside them (ie: New, Hot, Rising, etc..). Each of those are saved as a separated item in the dataset so you have to account for them when setting the `maxItems` input. As an example, if you set `maxCommunitiesAndUsers` to 10 and each community has 4 categories, you will have to set `maxItems` to at least 40 (10 x 4) to get all the categories for each community in the resulted dataset.
 
 When searching for Posts, you can set maxItems to the same number as maxPostCount since each post is saved as an item in the dataset. If the maxItems is less than maxPostCount, the number of posts will be equal the maxItems.
 
 ### Output
 
-Output is stored in a dataset. 
+Output is stored in a dataset.
 
 Post Example:
 
@@ -86,11 +88,7 @@ This will be replicated for each category inside the comunity to save each categ
   "title2": "r/Pizza",
   "createdAt": "Created Aug 26, 2008",
   "members": 266000,
-  "moderators": [
-    "6745408",
-    "AutoModerator",
-    "BotTerminator"
-  ],
+  "moderators": ["6745408", "AutoModerator", "BotTerminator"],
   "category": "top",
   "posts": [
     {
@@ -124,31 +122,28 @@ You can use this function to update the result output of this actor. You can cho
 The return value of this function has to be an object!
 
 You can return fields to achive 3 different things:
+
 - Add a new field - Return object with a field that is not in the result output
 - Change a field - Return an existing field with a new value
 - Remove a field - Return an existing field with a value `undefined`
 
-
 ```js
 async () => {
   return {
-        title: document.querySelecto('title').innerText,
-    }
-}
-
+    title: document.querySelecto("title").innerText,
+  };
+};
 ```
+
 This example will add the title of the page to the final object:
+
 ```json
 {
   "title": "Pizza",
   "title2": "r/Pizza",
   "createdAt": "Created Aug 26, 2008",
   "members": 266000,
-  "moderators": [
-    "6745408",
-    "AutoModerator",
-    "BotTerminator"
-  ],
+  "moderators": ["6745408", "AutoModerator", "BotTerminator"],
   "category": "top",
   "posts": [
     {
@@ -168,6 +163,6 @@ This example will add the title of the page to the final object:
       "title": "HelloFresh's newest offer is giving you $80 OFF including FREE Shipping! HelloFresh helps you add variety to your daily meals. If you're looking for easy to make meals at an affordable price, click here to learn more."
     }
   ],
-  "title": "homemade chicken cheese masala pasta" 
+  "title": "homemade chicken cheese masala pasta"
 }
 ```

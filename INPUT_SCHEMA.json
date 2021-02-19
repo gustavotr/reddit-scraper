@@ -41,6 +41,48 @@
                 "Communities and users"
             ]
         },
+        "sort": {
+            "title": "Sort search",
+            "type": "string",
+            "editor": "select",
+            "enum": [
+                "",
+                "relevance",
+                "hot",
+                "top",
+                "new",
+                "comments"
+            ],
+            "enumTitles": [
+                "None",
+                "Relevance",
+                "Hot",
+                "Top",
+                "New",
+                "Comments"
+            ]
+        },
+        "time": {
+            "title": "Filter by date (Posts only)",
+            "type": "string",
+            "editor": "select",
+            "enum": [
+                "all",
+                "hour",
+                "day",
+                "week",
+                "month",
+                "year"
+            ],
+            "enumTitles": [
+                "All time",
+                "Last hour",
+                "Last day",
+                "Last week",
+                "Last month",
+                "Last year"
+            ]
+        },
         "maxItems": {
             "title": "Maximum number of items to be saved",
             "type": "integer",

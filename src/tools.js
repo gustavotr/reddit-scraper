@@ -10,13 +10,22 @@ exports.enableDebugMode = () => {
   log.setLevel(log.LEVELS.DEBUG);
 };
 
-exports.getSearchUrl = ({ search, type }) => {
+exports.getSearchUrl = ({ search, type, sort, time }) => {
   const searchType = type === "posts" ? "link" : "sr,user";
 
   const params = new URLSearchParams([
     ["q", search],
     ["type", searchType],
   ]);
+
+  if (sort) {
+    params.set("sort", sort);
+  }
+
+  if (time) {
+    params.set("t", time);
+  }
+
   return `${EnumBaseUrl.SEARCH_URL}?${params.toString()}`;
 };
 
