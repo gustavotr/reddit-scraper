@@ -128,6 +128,8 @@ Apify.main(async () => {
             maxItems,
           });
           return;
+        case EnumURLTypes.USER:
+          return Parsers.userParser({ requestQueue, ...context });
         default:
           log.warning("Url does not match any parser");
       }

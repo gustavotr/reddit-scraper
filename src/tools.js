@@ -41,7 +41,7 @@ exports.getUrlType = (url) => {
 
   const searchParameters = new URLSearchParams(params);
 
-  if (url.match(/www\.reddit\.com\/search\/.*$/)) {
+  if (url.match(/reddit\.com\/search\/.*$/)) {
     if (searchParameters.get("type") === "link") {
       type = EnumURLTypes.POSTS;
     } else if (searchParameters.get("type") === "sr,user") {
@@ -61,6 +61,10 @@ exports.getUrlType = (url) => {
 
   if (url.match(/reddit\.com\/r\/([^/]+)\/[^/]+\/?$/)) {
     type = EnumURLTypes.COMMUNITY_CATEGORY;
+  }
+
+  if (url.match(/reddit\.com\/user\/([^/]+)\/posts\/?.*$/)) {
+    type = EnumURLTypes.POSTS;
   }
 
   return type;
