@@ -76,6 +76,10 @@ exports.getUrlType = (url) => {
     type = EnumURLTypes.POSTS;
   }
 
+  if (url.match(/reddit\.com\/subreddits\/leaderboard(\/.*)?$/)) {
+    type = EnumURLTypes.LEADERBOARD;
+  }
+
   return type;
 };
 

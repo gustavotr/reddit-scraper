@@ -35,6 +35,7 @@ Apify.main(async () => {
     debugMode,
     sort,
     time,
+    maxLeaderBoardItems,
   } = input;
 
   if (debugMode) {
@@ -130,8 +131,12 @@ Apify.main(async () => {
             maxItems,
           });
           return;
-        case EnumURLTypes.USER:
-          return Parsers.userParser({ requestQueue, ...context });
+        case EnumURLTypes.LEADERBOARD:
+          return Parsers.leaderBoardParser({
+            requestQueue,
+            ...context,
+            maxLeaderBoardItems,
+          });
         default:
           log.warning("Url does not match any parser");
       }

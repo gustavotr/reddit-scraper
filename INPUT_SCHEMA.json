@@ -116,6 +116,13 @@
             "prefill": 50,
             "default": 50
         },
+        "maxLeaderBoardItems": {
+            "title": "Limit leaderboard items",
+            "description": "Limit of communities inside a leaderboard page that will be scraped",
+            "editor": "number",
+            "prefill": 0,
+            "default": 0
+        },
         "extendOutputFunction": {
             "title": "Extended Output Function",
             "type": "string",

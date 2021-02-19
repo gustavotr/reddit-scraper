@@ -4,6 +4,7 @@ const { commentsParser } = require("./commentsParser");
 const { communityParser } = require("./communityParser");
 const { communityCategoryParser } = require("./communityCategoryParser");
 const { searchParser } = require("./searchParser");
+const { leaderBoardParser } = require("./leaderBoardParser");
 
 module.exports = {
   postsParser,
@@ -12,4 +13,5 @@ module.exports = {
   communityParser,
   communityCategoryParser,
   searchParser,
+  leaderBoardParser,
 };
