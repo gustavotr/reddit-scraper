@@ -83,6 +83,10 @@ exports.getUrlType = (url) => {
   return type;
 };
 
+/**
+ *
+ * @param {string} url
+ */
 exports.splitUrl = (url) => url.split("?")[0];
 
 exports.blockUnusedRequests = async (page) => {
@@ -154,24 +158,25 @@ exports.defaultInput = {
   maxPostCount: 50,
   maxComments: 50,
   maxCommunitiesAndUsers: 50,
-  useBuiltInSearch: false,
   type: "Posts",
   proxyConfiguration: { useApifyProxy: true },
 };
 
 exports.validateInput = (input) => {
-  if (input.useBuiltInSearch === undefined) {
-    log.warning("Input: built-in search is not set, set true as default");
-  }
-  if (input.searches === undefined) {
-    log.warning("Input: searches is not set, set [] as default.");
-  }
-  if (input.startUrls === undefined) {
-    log.warning("Input: startUrls is not set, set [] as default.");
+  const newInput = { ...exports.defaultInput, ...input };
+  const { startUrls, searches } = newInput;
+
+  if (!searches.length && !startUrls.length) {
+    log.error("startUrls and searches are empty. One of them must be used");
+    process.exit(0);
   }
 
-  if (!input.useBuiltInSearch && input.startUrls && input.startUrls.length) {
-    input.startUrls.forEach((url) => {
+  if (searches.length) {
+    log.info("Found search param, startUrls will be ignored");
+  }
+
+  if (!searches.length && startUrls.length) {
+    startUrls.forEach(({ url }) => {
       const searchType = this.getSearchType(url);
       if (!searchType) {
         log.error(`This url is not supported: ${url}`);
@@ -180,16 +185,5 @@ exports.validateInput = (input) => {
     });
   }
 
-  const newInput = { ...exports.defaultInput, ...input };
-  if (newInput.useBuiltInSearch && newInput.searches.length === 0) {
-    log.warning("Empty searches with built-in search found.");
-  }
-  if (newInput.startUrls.length === 0) {
-    log.warning("Empty startUrls found.");
-  }
-
-  if (!newInput.useBuiltInSearch && newInput.startUrls.length === 0) {
-    throw new Error("startUrls or built-in search must be used!");
-  }
   return newInput;
 };

@@ -13,19 +13,13 @@
             "patternValue": "(^$|reddit\\.com\\/.+)",
             "prefill": []
         },
-        "useBuiltInSearch": {
-            "title": "Use search fields bellow and ignore Start URLs",
-            "type": "boolean",
-            "description": "Use the fields bellow to perform a search and scrape the result",
-            "editor": "checkbox"
-        },
         "searches": {
             "title": "Search Term",
             "type": "array",
             "description": "Here you can provide a search query which will be used to search Reddit`s topics.",
             "editor": "stringList",
             "sectionCaption": "Search",
-            "sectionDescription": "This fields will be used on the search and will be omitted when using startUrl"
+            "sectionDescription": "This fields will be used on the search and should be omitted when using startUrl"
         },
         "type": {
             "title": "Search type",

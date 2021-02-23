@@ -30,7 +30,6 @@ Apify.main(async () => {
     maxPostCount,
     maxComments,
     maxCommunitiesAndUsers,
-    useBuiltInSearch,
     type,
     debugMode,
     sort,
@@ -41,15 +40,18 @@ Apify.main(async () => {
   if (debugMode) {
     enableDebugMode();
   }
+  const useBuiltInSearch = !!searches.length;
 
   const requestList = await Apify.openRequestList(
     "start-urls",
     useBuiltInSearch
       ? []
-      : startUrls.map(({ url, userData }) => ({
-          url,
-          userData: { ...userData, searchType: getSearchType(url) },
-        }))
+      : startUrls.map(({ url, userData }) => {
+          return {
+            url,
+            userData: { ...userData, searchType: getSearchType(url) },
+          };
+        })
   );
   const requestQueue = await Apify.openRequestQueue();
 
