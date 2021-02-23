@@ -8,10 +8,10 @@
             "title": "Start URLs",
             "type": "array",
             "description": "If you already have URL(s) of page(s) you wish to scrape, you can set them here.",
-            "editor": "stringList",
+            "editor": "requestListSources",
             "placeholderValue": "URL",
-            "patternValue": "^$|https:\\/\\/www\\.reddit\\.com\\/*.*",
-            "uniqueItems": true
+            "patternValue": "(^$|reddit\\.com\\/.+)",
+            "prefill": []
         },
         "useBuiltInSearch": {
             "title": "Use search fields bellow and ignore Start URLs",
@@ -25,7 +25,7 @@
             "description": "Here you can provide a search query which will be used to search Reddit`s topics.",
             "editor": "stringList",
             "sectionCaption": "Search",
-            "sectionDescription": "This fields will be used on the search"
+            "sectionDescription": "This fields will be used on the search and will be omitted when using startUrl"
         },
         "type": {
             "title": "Search type",
@@ -123,8 +123,8 @@
             "description": "Limit of communities inside a leaderboard page that will be scraped",
             "type": "integer",
             "editor": "number",
-            "prefill": 0,
-            "default": 0
+            "prefill": 20,
+            "default": 20
         },
         "extendOutputFunction": {
             "title": "Extended Output Function",
