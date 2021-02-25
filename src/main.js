@@ -107,6 +107,19 @@ Apify.main(async () => {
             maxCommunitiesAndUsers,
             maxItems,
           });
+        case EnumURLTypes.USER:
+          return Parsers.userParser({
+            requestQueue,
+            ...context,
+            maxItems,
+          });
+        case EnumURLTypes.USER_COMMENTS:
+          return Parsers.userCommentsParser({
+            requestQueue,
+            ...context,
+            maxItems,
+            maxComments,
+          });
         case EnumURLTypes.COMMENTS:
           await Parsers.commentsParser({
             requestQueue,

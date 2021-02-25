@@ -67,7 +67,7 @@ exports.commentsParser = async ({
       const temp = [];
       elements.forEach((el) => {
         const span = Array.from($(el).find("span")).find((sp) =>
-          $(sp).text().includes("points")
+          $(sp).text().includes("point")
         );
         const points = span ? span.innerText.match(/(\d+).+/)[1] : null;
         const id = $(el).attr("id");
@@ -101,6 +101,7 @@ exports.commentsParser = async ({
   comments.splice(maxComments);
 
   const post = {
+    dataType: "post",
     postUrl,
     communityName,
     ...data,

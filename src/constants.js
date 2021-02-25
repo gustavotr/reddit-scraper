@@ -6,6 +6,8 @@ exports.EnumURLTypes = {
   COMMUNITY_CATEGORY: "community_category",
   SEARCH: "search",
   LEADERBOARD: "leaderboard",
+  USER: "user",
+  USER_COMMENTS: "user_comments",
 };
 
 exports.EnumBaseUrl = {

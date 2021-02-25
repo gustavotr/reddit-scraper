@@ -23,6 +23,8 @@ exports.communityCategoryParser = async ({
     community = {};
   }
 
+  community.dataType = "community";
+
   let loading = true;
   let previousPostLength = -1;
   let posts = [];

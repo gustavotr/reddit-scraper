@@ -72,6 +72,14 @@ exports.getUrlType = (url) => {
     type = EnumURLTypes.COMMUNITY_CATEGORY;
   }
 
+  if (url.match(/reddit\.com\/user\/([^/]+)\/?$/)) {
+    type = EnumURLTypes.USER;
+  }
+
+  if (url.match(/www\.reddit\.com\/user\/.+\/comments\/?$/)) {
+    type = EnumURLTypes.USER_COMMENTS;
+  }
+
   if (url.match(/reddit\.com\/user\/([^/]+)\/posts\/?.*$/)) {
     type = EnumURLTypes.POSTS;
   }
@@ -163,7 +171,7 @@ exports.defaultInput = {
 };
 
 exports.validateInput = (input) => {
-  const newInput = { ...exports.defaultInput, ...input };
+  const newInput = { ...this.defaultInput, ...input };
   const { startUrls, searches } = newInput;
 
   if (!searches.length && !startUrls.length) {
