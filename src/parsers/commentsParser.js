@@ -1,7 +1,7 @@
 /* global $ */
 
 const Apify = require("apify");
-const { SCROLL_TIMEOUT } = require("../constants");
+const { SCROLL_TIMEOUT, EnumBaseUrl } = require("../constants");
 const { incrementItemsCount } = require("../saved-items");
 const {
   log,
@@ -43,6 +43,7 @@ exports.commentsParser = async ({
 
   const postUrl = request.url;
   const communityName = postUrl.match(/reddit\.com\/(.*)\/comments.*/)[1];
+  const communityUrl = `${EnumBaseUrl.MAIN_URL}/${communityName}`;
 
   try {
     await page.click(
@@ -103,6 +104,7 @@ exports.commentsParser = async ({
   const post = {
     postUrl,
     communityName,
+    communityUrl,
     ...data,
     numberOfVotes: convertStringToNumber(data.numberOfVotes),
     postedDate: convertRelativeDate(data.postedDate),

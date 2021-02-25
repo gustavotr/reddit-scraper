@@ -49,6 +49,7 @@ exports.communityParser = async ({ requestQueue, request, page }) => {
     createdAt,
     members,
     moderators,
+    communityUrl: request.url,
   };
 
   for (const categoryUrl of categories) {
