@@ -11,7 +11,11 @@
             "editor": "requestListSources",
             "placeholderValue": "URL",
             "patternValue": "(^$|reddit\\.com\\/.+)",
-            "prefill": []
+            "prefill": [
+                {
+                    "url": "https://www.reddit.com/r/worldnews/"
+                }
+            ]
         },
         "searches": {
             "title": "Search Term",
