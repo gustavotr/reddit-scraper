@@ -7,6 +7,7 @@ const { searchParser } = require("./searchParser");
 const { leaderBoardParser } = require("./leaderBoardParser");
 const { userParser } = require("./userParser");
 const { userCommentsParser } = require("./userCommentsParser");
+const { popularParser } = require("./popularParser");
 
 module.exports = {
   postsParser,
@@ -18,4 +19,5 @@ module.exports = {
   leaderBoardParser,
   userParser,
   userCommentsParser,
+  popularParser,
 };

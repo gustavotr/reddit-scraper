@@ -131,6 +131,8 @@ Apify.main(async () => {
           return;
         case EnumURLTypes.COMMUNITY:
           return Parsers.communityParser({ requestQueue, ...context });
+        case EnumURLTypes.POPULAR:
+          return Parsers.popularParser({ requestQueue, ...context });
         case EnumURLTypes.COMMUNITY_CATEGORY:
           await Parsers.communityCategoryParser({
             requestQueue,

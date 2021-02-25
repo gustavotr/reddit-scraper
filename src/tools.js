@@ -68,6 +68,10 @@ exports.getUrlType = (url) => {
     type = EnumURLTypes.COMMUNITY;
   }
 
+  if (url.match(/reddit\.com\/r\/popular(\/?)$/)) {
+    type = EnumURLTypes.POPULAR;
+  }
+
   if (url.match(/reddit\.com\/r\/([^/]+)\/[^/]+\/?$/)) {
     type = EnumURLTypes.COMMUNITY_CATEGORY;
   }

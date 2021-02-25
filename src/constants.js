@@ -8,6 +8,7 @@ exports.EnumURLTypes = {
   LEADERBOARD: "leaderboard",
   USER: "user",
   USER_COMMENTS: "user_comments",
+  POPULAR: "popular",
 };
 
 exports.EnumBaseUrl = {
