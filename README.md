@@ -30,6 +30,25 @@ When searching for Communities&Users, each community has different categories in
 
 When searching for Posts, you can set maxItems to the same number as maxPostCount since each post is saved as an item in the dataset. If the maxItems is less than maxPostCount, the number of posts will be equal the maxItems.
 
+### StartUrls examples
+
+Almost any url from reddit will return a result. If the url is not supported the scraper will display a message before scraping the page. Here are some examples of urls that can be scraped:
+
+```json
+{
+  "startUrls": [
+    { "url": "https://www.reddit.com/r/worldnews/" },
+    { "url": "https://www.reddit.com/r/worldnews/hot" },
+    { "url": "https://www.reddit.com/r/popular/" },
+    { "url": "https://www.reddit.com/search/?q=news" },
+    { "url": "https://www.reddit.com/user/lukaskrivka/" },
+    { "url": "https://www.reddit.com/user/lukaskrivka/comments/" }
+  ]
+}
+```
+
+If you use a search url as a parameter of startUrls it will only scrape for posts. If you want to search for communities and users use the search field instead.
+
 ### Output
 
 Output is stored in a dataset.
