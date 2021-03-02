@@ -40,7 +40,7 @@ Apify.main(async () => {
   if (debugMode) {
     enableDebugMode();
   }
-  const useBuiltInSearch = !!searches.length;
+  const useBuiltInSearch = !startUrls.length;
 
   const requestList = await Apify.openRequestList(
     "start-urls",

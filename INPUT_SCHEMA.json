@@ -1,13 +1,13 @@
 {
     "title": "Input schema for Reddit scraper",
-    "description": "Scrape information about posts, communities and users https://www.reddit.com/ without login.",
+    "description": "Scrape information about posts, communities and users https://www.reddit.com without login.",
     "type": "object",
     "schemaVersion": 1,
     "properties": {
         "startUrls": {
             "title": "Start URLs",
             "type": "array",
-            "description": "If you already have URL(s) of page(s) you wish to scrape, you can set them here.",
+            "description": "If you already have URL(s) of page(s) you wish to scrape, you can set them here. If you want to use the search field bellow, remove all startUrls here.",
             "editor": "requestListSources",
             "placeholderValue": "URL",
             "patternValue": "(^$|reddit\\.com\\/.+)",
@@ -23,7 +23,7 @@
             "description": "Here you can provide a search query which will be used to search Reddit`s topics.",
             "editor": "stringList",
             "sectionCaption": "Search",
-            "sectionDescription": "This fields will be used on the search and should be omitted when using startUrl"
+            "sectionDescription": "This fields will be used on the search and will be ignored when using startUrls"
         },
         "type": {
             "title": "Search type",

@@ -183,11 +183,9 @@ exports.validateInput = (input) => {
     process.exit(0);
   }
 
-  if (searches.length) {
-    log.info("Found search param, startUrls will be ignored");
-  }
+  if (startUrls.length) {
+    log.info("Found startUrl. Search params will be ignored.");
 
-  if (!searches.length && startUrls.length) {
     startUrls.forEach(({ url }) => {
       const searchType = this.getSearchType(url);
       if (!searchType) {
@@ -195,6 +193,10 @@ exports.validateInput = (input) => {
         process.exit(0);
       }
     });
+  }
+
+  if (!startUrls.length && searches.length) {
+    log.info("Search param found. Performing search...");
   }
 
   return newInput;
