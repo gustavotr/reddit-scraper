@@ -64,30 +64,33 @@ exports.commentsParser = async ({
   while (loading) {
     await Apify.utils.puppeteer.infiniteScroll(page, { timeoutSecs: 1 });
 
-    comments = await page.$$eval("[id^=t1]", (elements) => {
-      const temp = [];
-      elements.forEach((el) => {
-        const span = Array.from($(el).find("span")).find((sp) =>
-          $(sp).text().includes("point")
-        );
-        const points = span ? span.innerText.match(/(\d+).+/)[1] : null;
-        const id = $(el).attr("id");
-        const commentUrl = `${this.location.href}${id}`;
-        const userName = $(el).find('a[href^="/user/"]').text();
-        const commentDate = $(el)
-          .find(`#CommentTopMeta--Created--${id}`)
-          .text();
-        const description = $(el).find('[data-test-id="comment"]').text();
-        const comment = { commentUrl, userName, commentDate, description };
+    comments = await page.$$eval(
+      "[id^=t1]._3sf33-9rVAO_v4y0pIW_CH",
+      (elements) => {
+        const temp = [];
+        elements.forEach((el) => {
+          const span = Array.from($(el).find("span")).find((sp) =>
+            $(sp).text().includes("point")
+          );
+          const points = span ? span.innerText.match(/(\d+).+/)[1] : null;
+          const id = $(el).attr("id");
+          const commentUrl = `${this.location.href}${id}`;
+          const userName = $(el).find('a[href^="/user/"]').text();
+          const commentDate = $(el)
+            .find(`#CommentTopMeta--Created--${id}`)
+            .text();
+          const description = $(el).find('[data-test-id="comment"]').text();
+          const comment = { commentUrl, userName, commentDate, description };
 
-        if (points) {
-          comment.points = points;
-        }
+          if (points) {
+            comment.points = points;
+          }
 
-        temp.push(comment);
-      });
-      return temp;
-    });
+          temp.push(comment);
+        });
+        return temp;
+      }
+    );
 
     if (
       comments.length >= maxComments ||
