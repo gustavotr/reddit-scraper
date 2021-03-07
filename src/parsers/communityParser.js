@@ -21,7 +21,7 @@ exports.communityParser = async ({ requestQueue, request, page }) => {
     (el) => el.innerText
   );
   const membersRaw = await page.$eval(
-    "._3_HlHJ56dAfStT19Jgl1bF ._3XFx6CfPlg-4Usgxm0gK8R",
+    "._3XFx6CfPlg-4Usgxm0gK8R",
     (el) => el.innerText
   );
   const members = convertStringToNumber(membersRaw);
