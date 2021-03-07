@@ -44,14 +44,7 @@ Apify.main(async () => {
 
   const requestList = await Apify.openRequestList(
     "start-urls",
-    useBuiltInSearch
-      ? []
-      : startUrls.map(({ url, userData }) => {
-          return {
-            url,
-            userData: { ...userData, searchType: getSearchType(url) },
-          };
-        })
+    useBuiltInSearch ? [] : startUrls
   );
   const requestQueue = await Apify.openRequestQueue();
 

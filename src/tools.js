@@ -44,6 +44,10 @@ exports.getSearchType = (url) => {
  * @param {string} url
  */
 exports.getUrlType = (url) => {
+  if (!url) {
+    return null;
+  }
+
   let type = null;
 
   const [, params] = url.split("?");
@@ -186,10 +190,26 @@ exports.validateInput = (input) => {
   if (startUrls.length) {
     log.info("Found startUrl. Search params will be ignored.");
 
-    startUrls.forEach(({ url }) => {
-      const searchType = this.getSearchType(url);
+    startUrls.forEach((url) => {
+      let urlObj = {
+        userData: {},
+      };
+      if (typeof url === "string") {
+        urlObj.url = url;
+      } else if (typeof url === "object") {
+        urlObj = {
+          ...urlObj,
+          ...url,
+        };
+      }
+
+      if (urlObj.requestsFromUrl) {
+        return;
+      }
+
+      const searchType = this.getSearchType(urlObj.url);
       if (!searchType) {
-        log.error(`This url is not supported: ${url}`);
+        log.error(`This url is not supported: ${urlObj.url}`);
         process.exit(0);
       }
     });
