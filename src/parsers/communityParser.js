@@ -1,14 +1,14 @@
 const { log, convertStringToNumber } = require("../tools");
 
-exports.communityParser = async ({ requestQueue, request, page }) => {
+exports.getCommunityData = async ({ url, page }) => {
   try {
     await page.waitForSelector("div.wBtTDilkW_rtT2k5x3eie");
   } catch (err) {
     const privateCommunity = await page.$eval("h3", (el) => el.innerText);
 
     if (privateCommunity && privateCommunity.includes("must be invited")) {
-      log.exception(`Private community: ${request.url}`);
-      return;
+      log.exception(`Private community: ${url}`);
+      return { error: "private community" };
     }
 
     throw err;
@@ -35,7 +35,7 @@ exports.communityParser = async ({ requestQueue, request, page }) => {
 
   let moderators = null;
   try {
-    await page.goto(`${request.url}about/moderators`);
+    await page.goto(`${url}about/moderators`);
     moderators = await page.$$eval('a[href^="/user/"]', (elements) =>
       elements.map((el) => el.href.split("/user/")[1])
     );
@@ -49,8 +49,21 @@ exports.communityParser = async ({ requestQueue, request, page }) => {
     createdAt,
     members,
     moderators,
-    communityUrl: request.url,
+    communityUrl: url,
   };
+
+  return { community, categories };
+};
+
+exports.communityParser = async ({ requestQueue, request, page }) => {
+  const { community, categories, error } = await this.getCommunityData({
+    url: request.url,
+    page,
+  });
+
+  if (error) {
+    return;
+  }
 
   for (const categoryUrl of categories) {
     const category = categoryUrl.split("/").reverse().filter(Boolean)[0];

@@ -1,7 +1,7 @@
 /* global $ */
 
 const Apify = require("apify");
-const { SCROLL_TIMEOUT } = require("../constants");
+const { SCROLL_TIMEOUT, EnumBaseUrl } = require("../constants");
 const { incrementItemsCount } = require("../saved-items");
 const {
   convertRelativeDate,
@@ -9,6 +9,7 @@ const {
   verifyItemsCount,
   log,
 } = require("../tools");
+const { getCommunityData } = require("./communityParser");
 
 exports.communityCategoryParser = async ({
   request,
@@ -18,8 +19,10 @@ exports.communityCategoryParser = async ({
   maxItems,
 }) => {
   let { community } = request.userData;
+  let hasCommunityData = true;
 
   if (!community) {
+    hasCommunityData = false;
     community = {};
   }
 
@@ -83,6 +86,25 @@ exports.communityCategoryParser = async ({
     }))
     .slice(0, maxPostCount);
   Object.assign(community, userResult);
+
+  if (!hasCommunityData) {
+    const communityName = request.url.match(
+      /reddit\.com\/r\/([^/]+)\/[^/]+\/?$/
+    )[1];
+    const communityUrl = `${EnumBaseUrl.MAIN_URL}/r/${communityName}`;
+    await page.goto(communityUrl);
+    const { community: communityData, error } = await getCommunityData({
+      url: communityUrl,
+      page,
+    });
+
+    if (!error && communityData) {
+      community = {
+        ...communityData,
+        ...community,
+      };
+    }
+  }
 
   verifyItemsCount({ maxItems });
   log.debug("Saving community data");
