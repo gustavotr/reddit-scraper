@@ -137,7 +137,7 @@ exports.convertRelativeDate = (passedTimeString) => {
     const results = passedTimeString.match(/^(\d+)\s(\w+)\sago.*$/);
     if (results) {
       const num = results[1];
-      const key = results[2];
+      const key = results[2].slice(-1) === "s" ? results[2] : `${results[2]}s`;
       const duration = {};
       duration[key] = Number(num);
       const convertedDate = sub(new Date(), duration).toISOString();
