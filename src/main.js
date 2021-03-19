@@ -57,7 +57,9 @@ Apify.main(async () => {
     }
   }
 
-  const proxyConfiguration = await createProxyWithValidation(proxy);
+  const proxyConfiguration = await createProxyWithValidation({
+    proxyConfig: proxy,
+  });
 
   const preNavigationHooks = [
     async (crawlingContext) => {
