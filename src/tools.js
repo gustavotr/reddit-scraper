@@ -129,6 +129,27 @@ exports.convertStringToNumber = (stringNumber) => {
   return Number(number);
 };
 
+exports.mapCharToDuration = (char) => {
+  switch (char) {
+    case "s":
+      return "seconds";
+    // case "m":
+    // return "minutes";
+    case "h":
+      return "hours";
+    case "d":
+      return "days";
+    case "w":
+      return "weeks";
+    // case "m":
+    // return "months";
+    case "y":
+      return "years";
+    default:
+      return null;
+  }
+};
+
 exports.convertRelativeDate = (passedTimeString) => {
   try {
     if (passedTimeString.trim() === "just now") {
@@ -138,6 +159,15 @@ exports.convertRelativeDate = (passedTimeString) => {
     if (results) {
       const num = results[1];
       const key = results[2].slice(-1) === "s" ? results[2] : `${results[2]}s`;
+      const duration = {};
+      duration[key] = Number(num);
+      const convertedDate = sub(new Date(), duration).toISOString();
+      return convertedDate;
+    }
+    const shortTag = passedTimeString.match(/^(\d+)(\w)$/);
+    if (shortTag) {
+      const num = shortTag[1];
+      const key = this.mapCharToDuration(shortTag[2]);
       const duration = {};
       duration[key] = Number(num);
       const convertedDate = sub(new Date(), duration).toISOString();

@@ -1,7 +1,10 @@
 {
-  "extends": ["@apify", "plugin:prettier/recommended"],
-  "plugins": ["prettier"],
+  "extends": ["@apify", "plugin:prettier/recommended", "plugin:jest/all"],
+  "plugins": ["jest", "prettier"],
   "rules": {
     "prettier/prettier": "error"
+  },
+  "env": {
+    "jest/globals": true
   }
 }
