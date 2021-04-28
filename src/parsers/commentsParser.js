@@ -69,13 +69,10 @@ exports.commentsParser = async ({
       (elements) => {
         const temp = [];
         elements.forEach((el) => {
-          const span = Array.from($(el).find("span")).find((sp) =>
-            $(sp).text().includes("point")
-          );
-          const points = span ? span.innerText.match(/(\d+).+/)[1] : null;
           const id = $(el).attr("id");
           const commentUrl = `${this.location.href}${id}`;
           const userName = $(el).find('a[href^="/user/"]').text();
+          const points = $(`#vote-arrows-${id}`).text();
           const commentDate = $(el)
             .find(`#CommentTopMeta--Created--${id}`)
             .text();
