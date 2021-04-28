@@ -130,6 +130,7 @@ exports.convertStringToNumber = (stringNumber) => {
 };
 
 exports.mapCharToDuration = (char) => {
+  // TODO: find example for minute and month
   switch (char) {
     case "s":
       return "seconds";
@@ -168,10 +169,15 @@ exports.convertRelativeDate = (passedTimeString) => {
     if (shortTag) {
       const num = shortTag[1];
       const key = this.mapCharToDuration(shortTag[2]);
+      if (!key) {
+        throw new Error();
+      }
       const duration = {};
       duration[key] = Number(num);
       const convertedDate = sub(new Date(), duration).toISOString();
-      return convertedDate;
+      if (convertedDate) {
+        return convertedDate;
+      }
     }
     throw new Error();
   } catch (err) {

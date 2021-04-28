@@ -18,4 +18,9 @@ describe("convertRelativeDate", () => {
       new Date().toISOString().substr(0, 16)
     );
   });
+
+  it("should not convert date if uses `m` as a shortTag", () => {
+    expect.assertions(1);
+    expect(convertRelativeDate("1m")).toBe("1m");
+  });
 });
