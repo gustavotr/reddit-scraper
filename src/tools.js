@@ -10,6 +10,16 @@ exports.enableDebugMode = () => {
   log.setLevel(log.LEVELS.DEBUG);
 };
 
+let config = {
+  scrollTimeout: 40000,
+};
+
+exports.getConfig = () => config;
+
+exports.setConfig = (newConfig) => {
+  config = { ...config, ...newConfig };
+};
+
 exports.getSearchUrl = ({ search, type, sort, time }) => {
   const searchType = type === "posts" ? "link" : "sr,user";
 

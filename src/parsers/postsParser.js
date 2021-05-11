@@ -1,17 +1,22 @@
 /* global $ */
 
 const Apify = require("apify");
-const { SCROLL_TIMEOUT } = require("../constants");
-const { splitUrl, log } = require("../tools");
+const { splitUrl, log, getConfig } = require("../tools");
 
 exports.postsParser = async ({ requestQueue, page, request, maxPostCount }) => {
   let loading = true;
   let previousPostLength = 0;
   let posts = [];
 
+  const config = getConfig();
+  log.debug("SCROLL TIMEOUT", config);
+
   setTimeout(() => {
     loading = false;
-  }, SCROLL_TIMEOUT);
+    log.warning(
+      "SCROLL TIMEOUT REACHED, Try increasing the value of 'scrollTimeout' in the 'config' input`s parameter if this is limiting your results"
+    );
+  }, config.scrollTimeout);
 
   const getPostUrls = async () => {
     const postUrls = await page.$$eval("div.Post", (divs) =>
@@ -58,4 +63,5 @@ exports.postsParser = async ({ requestQueue, page, request, maxPostCount }) => {
   posts.splice(maxPostCount);
 
   await queueNewPosts(posts, request.userData);
+  log.info(`${posts.length} posts urls added to queue`);
 };
