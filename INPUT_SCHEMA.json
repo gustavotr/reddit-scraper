@@ -131,6 +131,15 @@
             "editor": "javascript",
             "sectionCaption": "Settings"
         },
+        "config": {
+            "title": "Optional Configuration",
+            "type": "object",
+            "description": "Adjust some of the actor parameters",
+            "editor": "json",
+            "default": {
+                "scrollTimeout": 40000
+            }
+        },
         "proxy": {
             "title": "Proxy configuration",
             "type": "object",
