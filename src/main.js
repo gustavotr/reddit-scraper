@@ -5,8 +5,7 @@ const {
   log,
   getUrlType,
   getSearchUrl,
-  getSearchType,
-  verifyItemsCount,
+  hasReachedMaxItemsLimit,
   validateInput,
   enableDebugMode,
   blockUnusedRequests,
@@ -84,7 +83,9 @@ Apify.main(async () => {
       const { page, request } = context;
       const urlType = getUrlType(request.url);
 
-      verifyItemsCount({ maxItems });
+      if (hasReachedMaxItemsLimit({ maxItems })) {
+        return;
+      }
 
       log.info(`Processing ${request.url}...`);
       log.debug(`Type: ${urlType}`);
@@ -156,6 +157,13 @@ Apify.main(async () => {
     handleFailedRequestFunction: async ({ request }) => {
       log.exception(`Request ${request.url} failed too many times`);
     },
+  });
+
+  Apify.events.on("reachedMaxItemsLimit", async () => {
+    await crawler.autoscaledPool.abort();
+    log.warning(
+      "Actor reached the max items limit. Crawler is going to halt and abort ongoing requests..."
+    );
   });
 
   log.info("Starting the crawl.");

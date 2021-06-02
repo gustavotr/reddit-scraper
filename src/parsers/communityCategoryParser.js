@@ -6,7 +6,7 @@ const { incrementItemsCount } = require("../saved-items");
 const {
   convertRelativeDate,
   convertStringToNumber,
-  verifyItemsCount,
+  hasReachedMaxItemsLimit,
   log,
 } = require("../tools");
 const { getCommunityData } = require("./communityParser");
@@ -106,7 +106,9 @@ exports.communityCategoryParser = async ({
     }
   }
 
-  verifyItemsCount({ maxItems });
+  if (hasReachedMaxItemsLimit({ maxItems })) {
+    return;
+  }
   log.debug("Saving community data");
   await Apify.pushData(community);
   incrementItemsCount();

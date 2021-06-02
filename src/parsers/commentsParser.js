@@ -7,7 +7,7 @@ const {
   log,
   convertStringToNumber,
   convertRelativeDate,
-  verifyItemsCount,
+  hasReachedMaxItemsLimit,
 } = require("../tools");
 
 exports.commentsParser = async ({
@@ -126,7 +126,9 @@ exports.commentsParser = async ({
 
   Object.assign(post, userResult);
 
-  verifyItemsCount({ maxItems });
+  if (hasReachedMaxItemsLimit({ maxItems })) {
+    return;
+  }
   log.debug("Saving comments data");
   await Apify.pushData(post);
   incrementItemsCount();

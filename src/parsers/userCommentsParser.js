@@ -3,12 +3,7 @@
 const Apify = require("apify");
 const { SCROLL_TIMEOUT } = require("../constants");
 const { incrementItemsCount } = require("../saved-items");
-const {
-  log,
-  convertStringToNumber,
-  convertRelativeDate,
-  verifyItemsCount,
-} = require("../tools");
+const { log, hasReachedMaxItemsLimit } = require("../tools");
 
 exports.userCommentsParser = async ({
   page,
@@ -89,7 +84,9 @@ exports.userCommentsParser = async ({
     comments,
   };
 
-  verifyItemsCount({ maxItems });
+  if (hasReachedMaxItemsLimit({ maxItems })) {
+    return;
+  }
   log.debug("Saving comments data");
   await Apify.pushData(userComments);
   incrementItemsCount();

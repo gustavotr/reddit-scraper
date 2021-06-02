@@ -140,24 +140,21 @@ exports.convertStringToNumber = (stringNumber) => {
 };
 
 exports.mapCharToDuration = (char) => {
-  // TODO: find example for minute and month
   switch (char) {
     case "s":
       return "seconds";
-    // case "m":
-    // return "minutes";
+    case "m":
+      return "minutes";
     case "h":
       return "hours";
     case "d":
       return "days";
     case "w":
       return "weeks";
-    // case "m":
-    // return "months";
     case "y":
       return "years";
     default:
-      return null;
+      return char;
   }
 };
 
@@ -200,15 +197,16 @@ exports.convertRelativeDate = (passedTimeString) => {
  *
  * @param {Object} params
  * @param {number} params.maxItems
+ * @returns {boolean}
  */
-exports.verifyItemsCount = ({ maxItems }) => {
+exports.hasReachedMaxItemsLimit = ({ maxItems }) => {
   const itemCount = getItemsCount();
   const reachedLimit = itemCount >= maxItems;
   if (reachedLimit) {
-    log.info("Actor reached the max items limit. Crawler is going to halt...");
-    log.info("Crawler Finished.");
-    process.exit();
+    Apify.events.emit("reachedMaxItemsLimit");
+    return true;
   }
+  return false;
 };
 
 exports.defaultInput = {
