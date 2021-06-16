@@ -48,7 +48,7 @@ exports.communitiesAndUsersParser = async ({
 
   for (const url of users) {
     const pUrl = url.replace(/\/$/, "");
-    const postUrl = `${pUrl}/posts`;
+    const postUrl = `${pUrl}`;
     await requestQueue.addRequest({
       url: postUrl,
       userData: { ...request.userData, searchType: EnumURLTypes.POSTS },

@@ -12,8 +12,12 @@ exports.userCommentsParser = async ({
   extendOutputFunction,
   maxItems,
 }) => {
-  const user = request.url.match(/user\/([^/]+)/)[1];
-  const userUrl = request.url.split("comments")[0];
+  const { user } = request.userData;
+  if (!user) {
+    const username = request.url.match(/user\/([^/]+)/)[1];
+    const userUrl = request.url.split("comments")[0];
+    Object.assign(user, { username, userUrl });
+  }
 
   let loading = true;
   let previousCommentsLength = -1;
@@ -79,8 +83,7 @@ exports.userCommentsParser = async ({
 
   const userComments = {
     dataType: "user-comments",
-    user,
-    userUrl,
+    ...user,
     comments,
   };
 

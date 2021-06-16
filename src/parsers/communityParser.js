@@ -32,6 +32,9 @@ exports.getCommunityData = async ({ url, page }) => {
       return Array.from(cats);
     }
   );
+  const trophies = await page.eval("._3lNmiqeZrNM0E_H2ZCIpN_", (elements) =>
+    elements.map((el) => el.innerText)
+  );
 
   let moderators = null;
   try {
@@ -50,6 +53,7 @@ exports.getCommunityData = async ({ url, page }) => {
     members,
     moderators,
     communityUrl: url,
+    trophies,
   };
 
   return { community, categories };
