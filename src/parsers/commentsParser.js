@@ -44,7 +44,7 @@ exports.commentsParser = async ({
   const postUrl = request.url;
   const communityName = postUrl.match(/reddit\.com\/(.*)\/comments.*/)[1];
   const communityUrl = `${EnumBaseUrl.MAIN_URL}/${communityName}`;
-  const { trophies } = request.userDate;
+  const { trophies } = request.userData;
 
   try {
     await page.click(
