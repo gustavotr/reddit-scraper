@@ -11,7 +11,7 @@ exports.userParser = async ({ requestQueue, page, request }) => {
 
   const user = {
     trophies,
-    username,
+    user: username,
     userUrl,
   };
 

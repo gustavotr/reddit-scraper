@@ -16,7 +16,7 @@ exports.userCommentsParser = async ({
   if (!user) {
     const username = request.url.match(/user\/([^/]+)/)[1];
     const userUrl = request.url.split("comments")[0];
-    Object.assign(user, { username, userUrl });
+    Object.assign(user, { user: username, userUrl });
   }
 
   let loading = true;
