@@ -18,7 +18,7 @@ exports.postsParser = async ({ requestQueue, page, request, maxPostCount }) => {
     );
   }, config.scrollTimeout);
 
-  const getPostUrls = async () => {
+  const getPostUrls = async (page) => {
     const postUrls = await page.$$eval("div.Post", (divs) =>
       divs.map((el) => {
         const postUrl = $(el).find("a[data-click-id=timestamp]").attr("href");
